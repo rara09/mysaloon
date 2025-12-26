@@ -232,8 +232,48 @@ src/
 └── main.ts           # Point d'entrée
 ```
 
+## Migrations
+
+Pour la production, utilisez les migrations TypeORM au lieu de `synchronize`. Voir [MIGRATIONS.md](./MIGRATIONS.md) pour plus de détails.
+
+### Commandes principales
+
+```bash
+# Générer une migration
+npm run migration:generate -- migrations/NomDeLaMigration
+
+# Exécuter les migrations (production)
+npm run migration:run
+
+# Voir le statut des migrations
+npm run migration:show
+
+# Annuler la dernière migration
+npm run migration:revert
+```
+
+### Déploiement en production
+
+Voir [DEPLOYMENT.md](./DEPLOYMENT.md) pour le guide complet de déploiement.
+
+**Résumé rapide :**
+```bash
+# 1. Backup de la base de données
+mysqldump -u root -p mysaloon > backup.sql
+
+# 2. Build
+npm run build
+
+# 3. Exécuter les migrations
+npm run migration:run
+
+# 4. Démarrer l'application
+npm run start:prod
+```
+
 ## Notes
 
 - En mode développement, TypeORM synchronise automatiquement le schéma de la base de données
-- En production, désactivez `synchronize` et utilisez des migrations
+- En production, `synchronize` est désactivé - utilisez les migrations
 - Changez le `JWT_SECRET` en production pour plus de sécurité
+- Faites toujours un backup avant d'exécuter les migrations en production
