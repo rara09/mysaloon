@@ -8,7 +8,7 @@ import {
   Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { PaymentMethod } from '../../entities/service.entity';
+import { PaymentMethod } from '../../entities/enums';
 
 export class CreateSaleItemDto {
   @IsInt()

@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Debt, DebtStatus } from '../entities/debt.entity';
+import { Debt } from '../entities/debt.entity';
+import { DebtStatus } from '../entities/enums';
 import { CreateDebtDto } from './dto/create-debt.dto';
 import { UpdateDebtDto } from './dto/update-debt.dto';
 import { PayDebtDto } from './dto/pay-debt.dto';

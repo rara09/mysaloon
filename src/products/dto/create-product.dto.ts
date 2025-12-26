@@ -6,7 +6,7 @@ import {
   IsInt,
   Min,
 } from 'class-validator';
-import { ProductCategory } from '../../entities/product.entity';
+import { ProductCategory } from '../../entities/enums';
 
 export class CreateProductDto {
   @IsString()

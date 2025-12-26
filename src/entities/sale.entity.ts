@@ -11,7 +11,7 @@ import {
 import { User } from './user.entity';
 import { Client } from './client.entity';
 import { SaleItem } from './sale-item.entity';
-import { PaymentMethod } from './service.entity';
+import { PaymentMethod } from './enums';
 
 @Entity('sales')
 export class Sale {

@@ -9,22 +9,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 import { Client } from './client.entity';
-
-export enum ServiceType {
-  TRESSES = 'Tresses',
-  TISSAGE = 'Tissage',
-  COUPE = 'Coupe',
-  COLORATION = 'Coloration',
-  ONGLERIE = 'Onglerie',
-  AUTRE = 'Autre',
-}
-
-export enum PaymentMethod {
-  CASH = 'Espèces',
-  MOBILE_MONEY = 'Mobile Money',
-  CREDIT = 'Crédit',
-  CARD = 'Carte',
-}
+import { ServiceType, PaymentMethod } from './enums';
 
 @Entity('services')
 export class Service {

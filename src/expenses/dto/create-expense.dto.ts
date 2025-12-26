@@ -7,7 +7,7 @@ import {
   IsInt,
   Min,
 } from 'class-validator';
-import { ExpenseCategory } from '../../entities/expense.entity';
+import { ExpenseCategory } from '../../entities/enums';
 
 export class CreateExpenseDto {
   @IsNumber()

@@ -10,12 +10,7 @@ import {
 import { Client } from './client.entity';
 import { Service } from './service.entity';
 import { Sale } from './sale.entity';
-
-export enum DebtStatus {
-  UNPAID = 'IMPAYÉ',
-  PARTIAL = 'PARTIEL',
-  PAID = 'PAYÉ',
-}
+import { DebtStatus } from './enums';
 
 @Entity('debts')
 export class Debt {

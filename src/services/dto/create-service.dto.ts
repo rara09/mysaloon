@@ -6,7 +6,7 @@ import {
   IsDateString,
   IsInt,
 } from 'class-validator';
-import { ServiceType, PaymentMethod } from '../../entities/service.entity';
+import { ServiceType, PaymentMethod } from '../../entities/enums';
 
 export class CreateServiceDto {
   @IsString()

@@ -7,7 +7,7 @@ import {
   IsInt,
   Min,
 } from 'class-validator';
-import { DebtStatus } from '../../entities/debt.entity';
+import { DebtStatus } from '../../entities/enums';
 
 export class CreateDebtDto {
   @IsNumber()

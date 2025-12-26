@@ -8,15 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-
-export enum ExpenseCategory {
-  PRODUCTS = 'Produits',
-  WATER = 'Eau',
-  ELECTRICITY = 'Électricité',
-  SALARIES = 'Salaires',
-  RENT = 'Loyer',
-  OTHER = 'Autre',
-}
+import { ExpenseCategory } from './enums';
 
 @Entity('expenses')
 export class Expense {

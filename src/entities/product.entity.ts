@@ -7,13 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { SaleItem } from './sale-item.entity';
-
-export enum ProductCategory {
-  HAIR = 'Hair',
-  NAILS = 'Nails',
-  AESTHETICS = 'Aesthetics',
-  OTHER = 'Other',
-}
+import { ProductCategory } from './enums';
 
 @Entity('products')
 export class Product {

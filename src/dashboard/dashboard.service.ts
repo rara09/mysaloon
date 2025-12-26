@@ -4,7 +4,8 @@ import { Repository, Between } from 'typeorm';
 import { Service } from '../entities/service.entity';
 import { Sale } from '../entities/sale.entity';
 import { Expense } from '../entities/expense.entity';
-import { Debt, DebtStatus } from '../entities/debt.entity';
+import { Debt } from '../entities/debt.entity';
+import { DebtStatus } from '../entities/enums';
 
 export enum Period {
   DAY = 'day',

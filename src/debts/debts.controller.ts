@@ -15,7 +15,7 @@ import { CreateDebtDto } from './dto/create-debt.dto';
 import { UpdateDebtDto } from './dto/update-debt.dto';
 import { PayDebtDto } from './dto/pay-debt.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { DebtStatus } from '../entities/debt.entity';
+import { DebtStatus } from '../entities/enums';
 
 @Controller('debts')
 @UseGuards(JwtAuthGuard)

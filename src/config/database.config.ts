@@ -1,14 +1,23 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-export const databaseConfig: TypeOrmModuleOptions = {
-  type: 'mysql',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT) || 3306,
-  username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_DATABASE || 'mysaloon',
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  synchronize: process.env.NODE_ENV !== 'production',
-  logging: process.env.NODE_ENV === 'development',
-};
+@Injectable()
+export class TypeOrmConfigService implements TypeOrmOptionsFactory {
+  constructor(private configService: ConfigService) {}
+
+  createTypeOrmOptions(): TypeOrmModuleOptions {
+    return {
+      type: 'mysql',
+      host: this.configService.get<string>('DB_HOST', 'localhost'),
+      port: this.configService.get<number>('DB_PORT', 3306),
+      username: this.configService.get<string>('DB_USERNAME', 'root'),
+      password: this.configService.get<string>('DB_PASSWORD', ''),
+      database: this.configService.get<string>('DB_DATABASE', 'mysaloon'),
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      synchronize: this.configService.get<string>('NODE_ENV') !== 'production',
+      logging: this.configService.get<string>('NODE_ENV') === 'development',
+    };
+  }
+}
 
