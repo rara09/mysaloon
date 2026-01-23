@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Service } from './service.entity';
+// import { Service } from './service.entity';
 import { Sale } from './sale.entity';
 import { Expense } from './expense.entity';
 
@@ -39,8 +39,8 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Service, (service) => service.stylist)
-  services: Service[];
+  // @OneToMany(() => Service, (service) => service.stylist)
+  // services: Service[];
 
   @OneToMany(() => Sale, (sale) => sale.user)
   sales: Sale[];
@@ -48,4 +48,3 @@ export class User {
   @OneToMany(() => Expense, (expense) => expense.user)
   expenses: Expense[];
 }
-

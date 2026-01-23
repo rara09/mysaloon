@@ -28,11 +28,15 @@ export class CreateServiceDto {
   @IsString()
   notes?: string;
 
+  @IsOptional()
   @IsInt()
   stylistId: number;
 
   @IsOptional()
   @IsInt()
   clientId?: number;
-}
 
+  @IsString()
+  @IsOptional()
+  guestName: string;
+}

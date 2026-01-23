@@ -7,9 +7,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+// import { User } from './user.entity';
 import { Client } from './client.entity';
 import { ServiceType, PaymentMethod } from './enums';
+import { Expose } from 'class-transformer';
 
 @Entity('services')
 export class Service {
@@ -41,12 +42,12 @@ export class Service {
   @Column({ nullable: true })
   notes: string;
 
-  @ManyToOne(() => User, (user) => user.services)
+  /* @ManyToOne(() => User, (user) => user.services, { nullable: true })
   @JoinColumn({ name: 'stylistId' })
   stylist: User;
 
   @Column()
-  stylistId: number;
+  stylistId: number; */
 
   @ManyToOne(() => Client, (client) => client.services, { nullable: true })
   @JoinColumn({ name: 'clientId' })
@@ -55,10 +56,22 @@ export class Service {
   @Column({ nullable: true })
   clientId: number;
 
+  // guest client
+  @Column({ nullable: true, default: 'Invité' })
+  guestName: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-}
 
+  // getter for display name
+  @Expose()
+  get clientName(): string {
+    if (this.client) {
+      return `${this.client.firstName} ${this.client.lastName}`;
+    }
+    return this.guestName || 'Invité';
+  }
+}

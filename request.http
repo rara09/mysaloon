@@ -1,0 +1,65 @@
+
+## Requêtes http pour l'API MonSalon
+
+### Inscription
+
+```bash
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+
+### Connexion
+
+```bash
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+### Créer un service (nécessite un token JWT)
+
+```bash
+POST /api/services
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Coupe Homme",
+  "type": "Coupe",
+  "amount": 25,
+  "paymentMethod": "Espèces",
+  "serviceDate": "2024-01-15T14:30:00Z",
+  "clientId": 1
+}
+```
+
+### Créer une vente (nécessite un token JWT)
+
+```bash
+POST /api/sales
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "paymentMethod": "Carte",
+  "userId": 1,
+  "clientId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2,
+      "unitPrice": 15.00
+    }
+  ]
+}

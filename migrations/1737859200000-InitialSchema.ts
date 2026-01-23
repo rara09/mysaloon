@@ -169,4 +169,3 @@ export class InitialSchema1737859200000 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE IF EXISTS \`users\``);
   }
 }
-

@@ -19,7 +19,7 @@ export class ServicesService {
 
   async findAll(): Promise<Service[]> {
     return this.serviceRepository.find({
-      relations: ['stylist', 'client'],
+      relations: ['client'],
       order: { serviceDate: 'DESC' },
     });
   }
@@ -27,7 +27,7 @@ export class ServicesService {
   async findOne(id: number): Promise<Service> {
     const service = await this.serviceRepository.findOne({
       where: { id },
-      relations: ['stylist', 'client'],
+      relations: ['client'],
     });
     if (!service) {
       throw new NotFoundException(`Service with ID ${id} not found`);
@@ -49,4 +49,3 @@ export class ServicesService {
     await this.serviceRepository.remove(service);
   }
 }
-

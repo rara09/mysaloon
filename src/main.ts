@@ -23,6 +23,8 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('api');
 
+  (app.getHttpAdapter().getInstance() as any).set('trust proxy', 1);
+
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }

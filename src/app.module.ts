@@ -1,7 +1,6 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmConfigService } from './config/database.config';
 import { AuthModule } from './auth/auth.module';
@@ -12,12 +11,14 @@ import { SalesModule } from './sales/sales.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { DebtsModule } from './debts/debts.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: ['.env.local', '.env'], // Cherche .env.local d'abord, puis .env
+      ignoreEnvFile: false, // S'assurer que le fichier .env est chargé
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
@@ -31,7 +32,14 @@ import { DashboardModule } from './dashboard/dashboard.module';
     DebtsModule,
     DashboardModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, TypeOrmConfigService],
+  controllers: [],
+  providers: [
+    AppService,
+    TypeOrmConfigService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

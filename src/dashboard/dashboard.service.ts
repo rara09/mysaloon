@@ -116,7 +116,7 @@ export class DashboardService {
       where: {
         serviceDate: Between(start, end),
       },
-      relations: ['stylist', 'client'],
+      relations: ['client'],
       order: { serviceDate: 'DESC' },
       take: 5,
     });
@@ -140,13 +140,15 @@ export class DashboardService {
       profitMargin: parseFloat(profitMargin.toFixed(2)),
       recentActivities: [
         ...recentServices.map((s) => ({
-          type: 'service',
+          type: s.type,
           id: s.id,
           name: s.name,
           amount: s.amount,
           date: s.serviceDate,
-          stylist: s.stylist ? `${s.stylist.firstName} ${s.stylist.lastName}` : null,
-          client: s.client ? `${s.client.firstName} ${s.client.lastName}` : null,
+          // stylist: s.stylist ? `${s.stylist.firstName} ${s.stylist.lastName}` : null,
+          client: s.client
+            ? `${s.client.firstName} ${s.client.lastName}`
+            : s.guestName || 'Invité',
         })),
         ...recentSales.map((s) => ({
           type: 'sale',
@@ -154,7 +156,9 @@ export class DashboardService {
           name: 'Vente Produits',
           amount: s.totalAmount,
           date: s.createdAt,
-          client: s.client ? `${s.client.firstName} ${s.client.lastName}` : 'Anonyme',
+          client: s.client
+            ? `${s.client.firstName} ${s.client.lastName}`
+            : 'Anonyme',
         })),
       ]
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -169,7 +173,7 @@ export class DashboardService {
       where: {
         serviceDate: Between(start, end),
       },
-      relations: ['stylist', 'client'],
+      relations: ['client'],
       order: { serviceDate: 'DESC' },
     });
 
@@ -196,4 +200,3 @@ export class DashboardService {
     };
   }
 }
-

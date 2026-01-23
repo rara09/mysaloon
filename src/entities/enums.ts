@@ -1,4 +1,5 @@
 export enum ServiceType {
+  NATTES = 'Nattes',
   TRESSES = 'Tresses',
   TISSAGE = 'Tissage',
   COUPE = 'Coupe',
@@ -35,4 +36,3 @@ export enum DebtStatus {
   PARTIAL = 'PARTIEL',
   PAID = 'PAYÉ',
 }
-
