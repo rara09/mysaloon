@@ -32,7 +32,7 @@ export class Sale {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @Column()
+  @Column({ nullable: true })
   userId: number;
 
   @ManyToOne(() => Client, (client) => client.sales, { nullable: true })
@@ -51,4 +51,3 @@ export class Sale {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-

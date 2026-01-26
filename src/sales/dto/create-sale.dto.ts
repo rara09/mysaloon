@@ -27,6 +27,7 @@ export class CreateSaleDto {
   @IsEnum(PaymentMethod)
   paymentMethod: PaymentMethod;
 
+  @IsOptional()
   @IsInt()
   userId: number;
 
@@ -39,4 +40,3 @@ export class CreateSaleDto {
   @Type(() => CreateSaleItemDto)
   items: CreateSaleItemDto[];
 }
-
