@@ -40,7 +40,7 @@ DB_PASSWORD=votre_mot_de_passe
 DB_DATABASE=mysaloon
 
 # JWT Configuration
-JWT_SECRET=votre_secret_jwt_changez_en_production
+JWT_SECRET=votre_secret_jwt
 
 # Application
 PORT=3000
@@ -177,7 +177,7 @@ Content-Type: application/json
 }
 ```
 
-### Créer une vente (nécessite un token JWT)
+### Ajouter une vente (nécessite un token JWT)
 
 ```bash
 POST /api/sales

@@ -44,6 +44,25 @@ Content-Type: application/json
 }
 ```
 
+### Ajouter un produit (nécessite un token JWT)
+
+```bash
+POST /api/products
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "category": "Hair",
+  "name": "Shampooing",
+  "description": "Shampooing doux pour cheveux fins",
+  "costPrice": 12.50,
+	"sellingPrice": 12.50,
+  "stockLevel": 50,
+	"image": "image.jpeg",
+	"lowStockAlert": 3
+}
+```
+
 ### Créer une vente (nécessite un token JWT)
 
 ```bash

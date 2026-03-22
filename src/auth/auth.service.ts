@@ -36,11 +36,15 @@ export class AuthService {
     });
 
     const savedUser = await this.userRepository.save(user);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = savedUser;
 
     return {
       ...result,
-      access_token: this.jwtService.sign({ sub: savedUser.id, email: savedUser.email }),
+      access_token: this.jwtService.sign({
+        sub: savedUser.id,
+        email: savedUser.email,
+      }),
     };
   }
 
@@ -53,10 +57,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const { password, ...result } = user;
-
     return {
-      ...result,
+      user: { id: user.id, email: user.email, name: user.name },
       access_token: this.jwtService.sign({ sub: user.id, email: user.email }),
     };
   }
@@ -69,4 +71,3 @@ export class AuthService {
     return user;
   }
 }
-

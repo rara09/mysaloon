@@ -47,4 +47,9 @@ export class User {
 
   @OneToMany(() => Expense, (expense) => expense.user)
   expenses: Expense[];
+
+  // full name
+  get name(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
