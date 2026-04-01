@@ -7,8 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-// import { User } from './user.entity';
-import { Client } from './client.entity';
+import { User } from './user.entity';
 import { ServiceType, PaymentMethod } from './enums';
 import { Expose } from 'class-transformer';
 
@@ -42,6 +41,10 @@ export class Service {
   @Column({ nullable: true })
   notes: string;
 
+  // Duration in minutes (used by appointments scheduling)
+  @Column({ type: 'int', default: 60 })
+  duration: number;
+
   /* @ManyToOne(() => User, (user) => user.services, { nullable: true })
   @JoinColumn({ name: 'stylistId' })
   stylist: User;
@@ -49,9 +52,9 @@ export class Service {
   @Column()
   stylistId: number; */
 
-  @ManyToOne(() => Client, (client) => client.services, { nullable: true })
+  @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'clientId' })
-  client: Client;
+  client: User;
 
   @Column({ nullable: true })
   clientId: number;

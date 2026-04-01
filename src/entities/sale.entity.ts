@@ -9,7 +9,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-import { Client } from './client.entity';
 import { SaleItem } from './sale-item.entity';
 import { PaymentMethod } from './enums';
 
@@ -35,9 +34,9 @@ export class Sale {
   @Column({ nullable: true })
   userId: number;
 
-  @ManyToOne(() => Client, (client) => client.sales, { nullable: true })
+  @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'clientId' })
-  client: Client;
+  client: User;
 
   @Column({ nullable: true })
   clientId: number;

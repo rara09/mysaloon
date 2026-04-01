@@ -9,6 +9,7 @@ import {
 // import { Service } from './service.entity';
 import { Sale } from './sale.entity';
 import { Expense } from './expense.entity';
+import { UserRole } from './enums';
 
 @Entity('users')
 export class User {
@@ -32,6 +33,13 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.ADMIN,
+  })
+  role: UserRole;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -1,6 +1,10 @@
 
 ## Requêtes http pour l'API MonSalon
 
+### Auth (cookie HttpOnly)
+Le backend définit un cookie `access_token` (HttpOnly) lors de `POST /api/auth/login` et `POST /api/auth/register`.
+Pour les requêtes suivantes, assurez-vous que votre client HTTP conserve les cookies (cookie jar). En plus, un `Authorization: Bearer <token>` est accepté si nécessaire.
+
 ### Inscription
 
 ```bash
@@ -39,6 +43,7 @@ Content-Type: application/json
   "type": "Coupe",
   "amount": 25,
   "paymentMethod": "Espèces",
+  "duration": 60,
   "serviceDate": "2024-01-15T14:30:00Z",
   "clientId": 1
 }
@@ -82,3 +87,121 @@ Content-Type: application/json
     }
   ]
 }
+```
+
+### Rendez-vous (appointments): créer
+```bash
+POST /api/appointments
+Content-Type: application/json
+
+{
+  "clientId": 1,
+  "serviceId": 1,
+  "date": "2026-04-01",
+  "startTime": "10:30",
+  "notes": "Premier rendez-vous"
+}
+```
+
+### Rendez-vous (appointments): lister
+```bash
+GET /api/appointments
+```
+
+### Rendez-vous (appointments): confirmer (PENDING -> CONFIRMED)
+```bash
+PATCH /api/appointments/1/status
+Content-Type: application/json
+
+{
+  "status": "CONFIRMED"
+}
+```
+
+### Rendez-vous (appointments): terminer (CONFIRMED -> COMPLETED)
+```bash
+PATCH /api/appointments/1/status
+Content-Type: application/json
+
+{
+  "status": "COMPLETED"
+}
+```
+
+### Rendez-vous (appointments): annuler (anytime -> CANCELLED)
+```bash
+PATCH /api/appointments/1/status
+Content-Type: application/json
+
+{
+  "status": "CANCELLED"
+}
+```
+
+### Catalogue (public — prestations actives)
+```bash
+GET /api/catalog/services
+```
+
+### Catalogue (gestion — toutes les lignes, JWT)
+```bash
+GET /api/catalog/services/manage
+Authorization: Bearer <token>
+```
+
+### Catalogue : créer une ligne
+`multipart/form-data` — champs texte + fichier optionnel `image` (comme pour `/api/products`).
+
+```bash
+POST /api/catalog/services
+Authorization: Bearer <token>
+Content-Type: multipart/form-data; boundary=----abc
+
+------abc
+Content-Disposition: form-data; name="name"
+
+Coupe femme
+------abc
+Content-Disposition: form-data; name="type"
+
+Coupe
+------abc
+Content-Disposition: form-data; name="amount"
+
+8000
+------abc
+Content-Disposition: form-data; name="duration"
+
+45
+------abc
+Content-Disposition: form-data; name="description"
+
+Coupe et brushing
+------abc
+Content-Disposition: form-data; name="isActive"
+
+true
+------abc
+Content-Disposition: form-data; name="image"; filename="photo.jpg"
+Content-Type: image/jpeg
+
+<binary>
+------abc--
+```
+
+### Catalogue : modifier
+Même principe multipart ; sans partie `image`, le fichier déjà enregistré est conservé.
+
+```bash
+PATCH /api/catalog/services/1
+Authorization: Bearer <token>
+Content-Type: multipart/form-data; boundary=----abc
+
+(champs name, type, amount, duration, description, isActive selon besoin)
+```
+
+### Catalogue : supprimer
+```bash
+DELETE /api/catalog/services/1
+Authorization: Bearer <token>
+```

@@ -30,6 +30,11 @@ export class CreateServiceDto {
 
   @IsOptional()
   @IsInt()
+  // Duration of the service in minutes (used to compute appointment end time).
+  duration?: number;
+
+  @IsOptional()
+  @IsInt()
   stylistId: number;
 
   @IsOptional()

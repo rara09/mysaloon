@@ -11,7 +11,13 @@ import { SalesModule } from './sales/sales.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { DebtsModule } from './debts/debts.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AppointmentsModule } from './appointments/appointments.module';
+import { CatalogServicesModule } from './catalog-services/catalog-services.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { UsersModule } from './users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/roles.guard';
 
 @Module({
   imports: [
@@ -31,6 +37,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ExpensesModule,
     DebtsModule,
     DashboardModule,
+    AppointmentsModule,
+    CatalogServicesModule,
+    NotificationsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [
@@ -39,6 +49,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

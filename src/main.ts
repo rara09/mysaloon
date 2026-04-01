@@ -1,17 +1,19 @@
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Enable CORS
   app.enableCors({
-    origin: true,
+    origin: ['http://localhost:5173', 'http://192.168.1.106:5173'],
     credentials: true,
   });
-
   // Global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
@@ -27,6 +29,14 @@ async function bootstrap() {
   app.use(cookieParser());
 
   (app.getHttpAdapter().getInstance() as any).set('trust proxy', 1);
+
+  // Serve uploaded files (works reliably in dev & prod)
+  app.use(
+    '/api/uploads',
+    express.static(join(process.cwd(), 'uploads'), {
+      fallthrough: false,
+    }),
+  );
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);

@@ -12,9 +12,12 @@ import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../entities/enums';
 
 @Controller('expenses')
 @UseGuards(JwtAuthGuard)
+@Roles(UserRole.ADMIN, UserRole.STAFF)
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 

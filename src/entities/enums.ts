@@ -36,3 +36,53 @@ export enum DebtStatus {
   PARTIAL = 'PARTIEL',
   PAID = 'PAYÉ',
 }
+
+// Loyalty / Fidelity
+export enum LoyaltyLevel {
+  BRONZE = 'bronze',
+  SILVER = 'argent',
+  GOLD = 'or',
+  PLATINUM = 'platine',
+}
+
+export enum LoyaltyTransactionReason {
+  VISIT = 'visite',
+  BIRTHDAY = 'anniversaire',
+  REWARD = 'récompense',
+}
+
+// Reminders
+export enum ReminderType {
+  BIRTHDAY = 'anniversaire',
+  INACTIVITY = 'inactivite',
+  CUSTOM = 'custom',
+}
+
+export enum ReminderChannel {
+  SMS = 'sms',
+  EMAIL = 'email',
+}
+
+export enum ReminderStatus {
+  PENDING = 'en_attente',
+  SENT = 'envoye',
+  FAILED = 'echoue',
+}
+
+// Appointment / Rendez-vous
+export enum AppointmentStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED',
+}
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  STAFF = 'STAFF',
+  CLIENT = 'CLIENT',
+}
+
+export enum NotificationType {
+  APPOINTMENT_CREATED = 'APPOINTMENT_CREATED',
+}

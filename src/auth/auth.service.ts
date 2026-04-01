@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { UserRole } from '../entities/enums';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,9 @@ export class AuthService {
     const user = this.userRepository.create({
       ...registerDto,
       password: hashedPassword,
+      // Un compte créé via /auth/register est considéré comme "client" (profil non-staff).
+      // Les admins/staff seront créés par backoffice.
+      role: UserRole.CLIENT,
     });
 
     const savedUser = await this.userRepository.save(user);
@@ -58,7 +62,13 @@ export class AuthService {
     }
 
     return {
-      user: { id: user.id, email: user.email, name: user.name },
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      },
       access_token: this.jwtService.sign({ sub: user.id, email: user.email }),
     };
   }

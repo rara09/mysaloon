@@ -7,7 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Client } from './client.entity';
+import { User } from './user.entity';
 import { Service } from './service.entity';
 import { Sale } from './sale.entity';
 import { DebtStatus } from './enums';
@@ -30,9 +30,9 @@ export class Debt {
   })
   status: DebtStatus;
 
-  @ManyToOne(() => Client, (client) => client.debts)
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'clientId' })
-  client: Client;
+  client: User;
 
   @Column()
   clientId: number;

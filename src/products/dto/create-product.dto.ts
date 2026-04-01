@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNumber,
@@ -15,14 +16,17 @@ export class CreateProductDto {
   @IsEnum(ProductCategory)
   category: ProductCategory;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   costPrice: number;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   sellingPrice: number;
 
+  @Type(() => Number)
   @IsInt()
   @Min(0)
   stockLevel: number;
@@ -39,8 +43,8 @@ export class CreateProductDto {
   lowStockAlert?: boolean;
 
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(0)
   lowStockThreshold?: number;
 }
-

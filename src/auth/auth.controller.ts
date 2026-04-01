@@ -43,7 +43,15 @@ export class AuthController {
     const result = await this.authService.register(registerDto);
     const { access_token, ...user } = result;
     res.cookie(ACCESS_TOKEN_COOKIE, access_token, accessTokenCookieOptions());
-    return { user };
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      },
+    };
   }
 
   @Post('login')
@@ -63,6 +71,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getMe(@Req() req) {
-    return req.user;
+    const { id, email, firstName, lastName, role } = req.user;
+    return { id, email, firstName, lastName, role };
   }
 }
