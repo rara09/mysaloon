@@ -8,13 +8,12 @@ import {
   Patch,
   Post,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Public } from '../auth/public.decorator';
 import { CatalogServicesService } from './catalog-services.service';
 import { CreateCatalogServiceDto } from './dto/create-catalog-service.dto';
 import { UpdateCatalogServiceDto } from './dto/update-catalog-service.dto';
@@ -37,6 +36,7 @@ export class CatalogServicesController {
   ) {}
 
   /** Public — prestations affichées sur le site (actives uniquement). */
+  @Public()
   @Get()
   findPublic() {
     return this.catalogServicesService.findPublic();
@@ -44,14 +44,12 @@ export class CatalogServicesController {
 
   /** Authentifié — toutes les lignes (y compris inactives) pour la gestion. */
   @Get('manage')
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   findAllManage() {
     return this.catalogServicesService.findAll();
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -69,7 +67,6 @@ export class CatalogServicesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -88,7 +85,6 @@ export class CatalogServicesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.catalogServicesService.remove(id);

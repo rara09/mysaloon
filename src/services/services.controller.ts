@@ -6,17 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../entities/enums';
 
 @Controller('services')
-@UseGuards(JwtAuthGuard)
 @Roles(UserRole.ADMIN, UserRole.STAFF)
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}

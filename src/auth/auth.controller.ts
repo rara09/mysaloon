@@ -4,13 +4,12 @@ import {
   Body,
   Res,
   Get,
-  UseGuards,
   Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { Public } from './public.decorator';
 
 const ACCESS_TOKEN_COOKIE = 'access_token';
 
@@ -35,6 +34,7 @@ function accessTokenCookieOptions() {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('register')
   async register(
     @Body() registerDto: RegisterDto,
@@ -54,6 +54,7 @@ export class AuthController {
     };
   }
 
+  @Public()
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res) {
     const { access_token, user } = await this.authService.login(loginDto);
@@ -62,6 +63,7 @@ export class AuthController {
     return { user };
   }
 
+  @Public()
   @Post('logout')
   async logout(@Res({ passthrough: true }) res) {
     res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenCookieBase());
@@ -69,7 +71,6 @@ export class AuthController {
   }
 
   @Get('me')
-  @UseGuards(JwtAuthGuard)
   getMe(@Req() req) {
     const { id, email, firstName, lastName, role } = req.user;
     return { id, email, firstName, lastName, role };

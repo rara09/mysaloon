@@ -11,7 +11,11 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://192.168.1.106:5173'],
+    origin: [
+      'http://localhost:5173',
+      'http://192.168.1.106:5173',
+      'http://belya.webocean.cloud',
+    ],
     credentials: true,
   });
   // Global validation pipe

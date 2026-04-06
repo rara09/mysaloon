@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentStatusDto } from './dto/update-appointment-status.dto';
@@ -7,7 +6,6 @@ import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../entities/enums';
 
 @Controller('appointments')
-@UseGuards(JwtAuthGuard)
 @Roles(UserRole.ADMIN, UserRole.STAFF)
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}

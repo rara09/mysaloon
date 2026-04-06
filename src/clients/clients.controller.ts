@@ -6,17 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../entities/enums';
 
 @Controller('clients')
-@UseGuards(JwtAuthGuard)
 @Roles(UserRole.ADMIN, UserRole.STAFF)
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}

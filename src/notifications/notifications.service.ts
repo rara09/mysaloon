@@ -63,4 +63,3 @@ export class NotificationsService {
     return this.notificationsRepo.save(rows);
   }
 }
-

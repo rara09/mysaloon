@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -17,7 +16,7 @@ import { extname } from 'path';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Public } from '../auth/public.decorator';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../entities/enums';
 
@@ -35,7 +34,6 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -52,24 +50,25 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
+  @Public()
   @Get('low-stock')
   getLowStock() {
     return this.productsService.getLowStockProducts();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -88,14 +87,12 @@ export class ProductsController {
   }
 
   @Put(':id/stock')
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   updateStock(@Param('id') id: string, @Body('quantity') quantity: number) {
     return this.productsService.updateStock(+id, quantity);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.STAFF)
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
