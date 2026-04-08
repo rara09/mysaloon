@@ -14,6 +14,9 @@ import { Service } from '../entities/service.entity';
 import { AppointmentsGateway } from './appointments.gateway';
 import { NotificationsService } from '../notifications/notifications.service';
 import { NotificationType, UserRole } from '../entities/enums';
+import { CreatePublicAppointmentDto } from './dto/create-public-appointment.dto';
+import * as bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class AppointmentsService {
@@ -131,6 +134,57 @@ export class AppointmentsService {
     return saved;
   }
 
+  async createPublic(dto: CreatePublicAppointmentDto): Promise<Appointment> {
+    const firstName = dto.firstName.trim();
+    const lastName = dto.lastName.trim();
+    const phone = dto.phone.trim();
+    const normalizedEmail = dto.email?.trim().toLowerCase();
+
+    const effectiveEmail =
+      normalizedEmail && normalizedEmail.length > 3
+        ? normalizedEmail
+        : this.generateGuestEmail(phone);
+
+    let client = await this.userRepository.findOne({
+      where: { email: effectiveEmail },
+    });
+
+    if (client && client.role !== UserRole.CLIENT) {
+      throw new BadRequestException(
+        'Email already used by a non-client account',
+      );
+    }
+
+    if (!client) {
+      const rawPassword = randomBytes(18).toString('base64url');
+      const hashedPassword = await bcrypt.hash(rawPassword, 10);
+      client = await this.userRepository.save(
+        this.userRepository.create({
+          email: effectiveEmail,
+          password: hashedPassword,
+          firstName,
+          lastName,
+          role: UserRole.CLIENT,
+          isActive: true,
+          avatar: null as any,
+        }),
+      );
+    }
+
+    const notesParts = [
+      `Téléphone: ${phone}`,
+      dto.notes?.trim() ? `Note: ${dto.notes.trim()}` : null,
+    ].filter(Boolean);
+
+    return this.create({
+      clientId: client.id,
+      serviceId: dto.serviceId,
+      date: dto.date,
+      startTime: dto.startTime,
+      notes: notesParts.join('\n'),
+    });
+  }
+
   async findAll(): Promise<Appointment[]> {
     return this.appointmentRepository.find({
       relations: ['client', 'service'],
@@ -191,6 +245,12 @@ export class AppointmentsService {
     const hh = Math.floor(totalMinutes / 60);
     const mm = totalMinutes % 60;
     return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+  }
+
+  private generateGuestEmail(phone: string): string {
+    const digits = phone.replace(/[^\d]/g, '').slice(-8) || 'client';
+    const suffix = randomBytes(6).toString('hex');
+    return `guest.${digits}.${suffix}@mgbeauty.local`;
   }
 }
 

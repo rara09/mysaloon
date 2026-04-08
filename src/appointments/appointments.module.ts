@@ -8,6 +8,7 @@ import { AppointmentsGateway } from './appointments.gateway';
 import { AuthModule } from '../auth/auth.module';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { User } from '../entities/user.entity';
+import { PublicAppointmentsController } from './public-appointments.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { User } from '../entities/user.entity';
     AuthModule,
     NotificationsModule,
   ],
-  controllers: [AppointmentsController],
+  controllers: [AppointmentsController, PublicAppointmentsController],
   providers: [AppointmentsService, AppointmentsGateway],
   exports: [AppointmentsService],
 })

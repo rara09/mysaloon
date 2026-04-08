@@ -86,3 +86,8 @@ export enum UserRole {
 export enum NotificationType {
   APPOINTMENT_CREATED = 'APPOINTMENT_CREATED',
 }
+
+export enum GalleryMediaKind {
+  IMAGE = 'IMAGE',
+  VIDEO = 'VIDEO',
+}

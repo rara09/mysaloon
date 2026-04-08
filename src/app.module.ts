@@ -15,6 +15,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { CatalogServicesModule } from './catalog-services/catalog-services.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { UsersModule } from './users/users.module';
+import { GalleryModule } from './gallery/gallery.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
@@ -42,6 +43,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     CatalogServicesModule,
     NotificationsModule,
     UsersModule,
+    GalleryModule,
   ],
   controllers: [],
   providers: [
