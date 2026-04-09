@@ -14,7 +14,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'http://192.168.1.106:5173',
-      'http://belya.webocean.cloud',
+      'https://belya.webocean.cloud',
     ],
     credentials: true,
   });
